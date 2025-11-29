@@ -9,8 +9,7 @@ import time
 
 
 
-TIMEZONE_MAP = {
-    # --- United States timezones (Standard + DST) ---
+timezone_reference = {
     "EST": "America/New_York",
     "EDT": "America/New_York",
     "CST": "America/Chicago",
@@ -73,11 +72,11 @@ TIMEZONE_MAP = {
 def get_current_timezone_time(timezone):
     timezone = timezone.upper()
 
-    if timezone not in TIMEZONE_MAP:
+    if timezone not in timezone_reference:
         return "Timezone not found"
     
     else:
-        tz = pytz.timezone(TIMEZONE_MAP[timezone])
+        tz = pytz.timezone(timezone_reference[timezone])
         now = datetime.now(tz)
         return now.strftime(f"%H:%M")
     
@@ -93,14 +92,14 @@ def convert_timezone(timezone1, timezone2,time):
 
     given_with_date =  datetime(current.year,current.month, current.day, given_hour, given_minute)
 
-    if timezone1 not in TIMEZONE_MAP or timezone2 not in TIMEZONE_MAP:
+    if timezone1 not in timezone_reference or timezone2 not in timezone_reference:
         return "Timezone not found"
     
     else:
-        tz = pytz.timezone(TIMEZONE_MAP[timezone1])
+        tz = pytz.timezone(timezone_reference[timezone1])
         start_tz = tz.localize(given_with_date)
 
-        tz2 = pytz.timezone(TIMEZONE_MAP[timezone2])
+        tz2 = pytz.timezone(timezone_reference[timezone2])
         end_tz = start_tz.astimezone(tz2)
 
         return end_tz.strftime(f"%H:%M")
