@@ -110,25 +110,31 @@ def convert_timezone(timezone1, timezone2,time):
 def main():
     while True:
         time.sleep(1)
-        file_path = r'timezone-convertor\timezone_request.txt'
+        file_path = r"timezone-convertor/request-file/timezone_request.txt"
         f = open(file_path, 'r')
         data = f.read().strip()
         f.close()
         if  len(data) == 0:
-            print('0')
+            continue
         
         inputs = data.split()
 
-        if inputs[0].lower() == "current":
+        if inputs[0].lower() == "current": 
+            print("Received current comanded with timezone " + inputs[1])
             f = open(file_path, 'w')
-            f.write(get_current_timezone_time(inputs[1]))
-            f.close
+            content = get_current_timezone_time(inputs[1])
+            f.write(content)
+            f.close()
+            print("Sent " + content)
 
         
-        if inputs[0].lower() == "convert":
+        elif inputs[0].lower() == "convert":
             f = open(file_path, 'w')
             f.write(convert_timezone(inputs[1], inputs[2], inputs[3]))
-            f.close
+            f.close()
+
+        
+
 
 main()
 print(get_current_timezone_time('PST'))
